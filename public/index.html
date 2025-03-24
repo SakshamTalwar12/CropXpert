@@ -6,11 +6,9 @@
     <title>Smart Farming Assistant</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
-
-    </div>
-
     <div class="tab-container">
         <button class="tab-button active" onclick="openTab(event, 'home')">Home</button>
         <button class="tab-button" onclick="openTab(event, 'soil')">Soil Quality</button>
@@ -80,7 +78,9 @@
                     </div>
                 </div>
             </div>
+            <a href="https://onlinelibrary.wiley.com/doi/10.1155/2023/6699154" target="_blank">
             <button class="farm-btn">Learn More</button>
+            </a>
             <div class="pest-control">
                 <h2>Pest Management</h2>
                 <p class="pest-text">Integrated Pest Management (IPM) strategies for your crops:</p>
@@ -102,7 +102,9 @@
                     </div>
                 </div>
             </div>
+            <a href="https://bioprotectionportal.com/resources/integrated-pest-management-use-and-its-benefits/?utm_source=google&utm_medium=cpc&gad_source=1&gclid=Cj0KCQjwkN--BhDkARIsAD_mnIqVIpJ-DJV2wnw0tAr4s3yGgRF4aaf3qfwXud2aiGX70V3y5EnWxXgaAsUvEALw_wcB" target="_blank">
             <button class="pest-btn">Learn More</button>
+            </a>
             <!-- <div class="drop-container">
                 <div class="drop-area">
                     <p>Drag & drop soil test results or <span class="browse">browse</span></p>
@@ -110,6 +112,21 @@
                 </div>
             </div>
             <button class="uploadBtn">Analyze Soil</button> -->
+            <div class="image-bor">
+                <h2 class="upload-heading">Soil Quality Check / Pest Check</h2>
+                <div class="image-upload-container" onclick="document.getElementById('imageUpload').click()">
+                    <input type="file" id="imageUpload" accept="image/*">
+                    <div class="upload-placeholder" id="uploadPlaceholder">Upload Image</div>
+                    <img id="preview" alt="Uploaded Image Preview">
+                </div>
+                <div class="loading" id="loading">Analyzing your image</div>
+                <div class="results-container" id="resultsContainer">
+                    <button class="close-results" id="closeResults">×</button>
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+            <button class="img-submit" id="submitButton" disabled>Submit</button>
+
         </div>
     </div>
 
@@ -137,12 +154,55 @@
                 </div>
             </div>
         </div>
+        <a href="https://www.agrivi.com/blog/best-farm-practices-for-profitable-farming/" target="_blank">
         <button class="farm-btn">Learn More</button>
+        </a>
         
             <div class="practises-contact">
                 <h3>Need Help?</h3>
                 <p>Enter details about yourself to learn about best farming practises.</p>
-                <button class="practises-btn">Click Here</button>
+
+                <button class="practises-btn" id="openPracticesModalBtn">Click Here</button>
+<div id="practicesModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closePracticesModal">&times;</span>
+
+        <div class="form-group">
+            <label>What type of soil do you have?</label>
+            <input type="text" id="soilType" placeholder="E.g., Clay, Sandy, Loamy">
+        </div>
+
+        <div class="form-group">
+            <label>Do you have access to irrigation?</label>
+            <input type="text" id="irrigation" placeholder="Yes or No">
+        </div>
+
+        <div class="form-group">
+            <label>What are the main crops you cultivate?</label>
+            <input type="text" id="crops" placeholder="E.g., Wheat, Rice">
+        </div>
+
+        <div class="form-group">
+            <label>Do you face any major pest or disease issues?</label>
+            <input type="text" id="pestIssues" placeholder="Yes or No (Specify if needed)">
+        </div>
+
+        <div class="form-group">
+            <label>Do you use chemical fertilizers, organic manure, or both?</label>
+            <input type="text" id="fertilizers" placeholder="E.g., Chemical, Organic, Both">
+        </div>
+
+        <div class="form-group">
+            <label>Do you face extreme weather conditions like droughts or floods?</label>
+            <input type="text" id="weatherIssues" placeholder="Yes or No">
+        </div>
+
+        <button id="submitPracticesDetails">Submit</button>
+        <p id="responsePractices"></p>
+    </div>
+</div>
+
+                
             </div>
     </div>
     
@@ -193,11 +253,60 @@
                     <!-- <a href="#" class="scheme-btn">Learn More</a> -->
                 </div>
             </div>
-            <button class="schemes-btn">Learn More</button>
+            <a href="https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2002012" target="_blank">
+            <button class="schemes-btn">Learn More</button></a>
             <div class="schemes-contact">
                 <h3>Need Help?</h3>
-                <p>Enter details about yourself to learn about government schemes that suit you.</p>
-                <button class="contact-btn">Click Here</button>
+                <p>Enter details to learn about relevant government schemes.</p>
+                <button class="contact-btn" id="openSchemesModalBtn">Click Here</button>
+                <div id="schemesModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="closeSchemesModal">&times;</span>
+                
+                        <div id="schemesForm">
+                            <div class="form-group">
+                                <label>State:</label>
+                                <input type="text" id="state" placeholder="Enter your state">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Land Area (in acres):</label>
+                                <input type="number" id="landArea" placeholder="E.g., 5">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Main Crops:</label>
+                                <input type="text" id="cropsSchemes" placeholder="E.g., Wheat, Rice">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Annual Income (₹):</label>
+                                <input type="text" id="income" placeholder="E.g., Below 1 lakh">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Do you have a Kisan Credit Card? (Yes/No)</label>
+                                <input type="text" id="kcc" placeholder="Yes or No">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Are you registered under PM-KISAN? (Yes/No)</label>
+                                <input type="text" id="pmKisan" placeholder="Yes or No">
+                            </div>
+                
+                            <div class="form-group">
+                                <label>Any other details that you would like to mention</label>
+                                <input type="text" id="otherDetails">
+                            </div>
+                
+                            <button id="submitSchemesDetails">Submit</button>
+                        </div>
+                
+                        <p id="responseSchemes" style="display: none;"></p>
+                    </div>
+                </div>
+                
+
             </div>
         </div>
     </div>
@@ -263,7 +372,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
