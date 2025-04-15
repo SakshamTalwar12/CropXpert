@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.register-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-top: 5px solid #4caf50;
+}
+
+.register-card h1 {
+    color: #2e7d32;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.register-tagline {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.icon-container {
+    margin: 20px 0;
+}
+
+.icon-container i {
+    font-size: 3rem;
+    color: #4caf50;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.form-group label i {
+    margin-right: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.register-btn:hover {
+    background-color: #3e8e41;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.additional-links {
+    margin-top: 25px;
+}
+
+.additional-links a {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.additional-links a:hover {
+    color: #3e8e41;
+}
+
+.login-text {
+    margin-top: 15px;
+    color: #666;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #666;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: white;
+    color: #757575;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.google-btn:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.google-btn img {
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .register-card {
+        padding: 30px 20px;
+    }
+
+    .register-card h1 {
+        font-size: 1.8rem;
+    }
+
+    .register-tagline {
+        font-size: 1rem;
+    }
+    
+    .google-btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+    .google-btn img {
+        width: 16px;
+        height: 16px;
+    }
+}

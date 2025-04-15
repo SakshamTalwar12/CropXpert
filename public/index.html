@@ -21,34 +21,42 @@
     <div id="home" class="tab-content active">
         <div class="hero-section">
             <div class="hero-content">
-                <h1>Welcome to Smart Farming</h1>
+                <h1>Welcome to CropXpert</h1>
                 <p>Revolutionizing agriculture with technology and data-driven insights</p>
-                <button class="cta-button">Get Started</button>
+                <form action="/login" method="GET" style="display: inline;">
+                    <button type="submit" class="cta-button">Login</button>
+                </form>
+                <form action="/register" method="GET" style="display: inline;">
+                    <button type="submit" class="cta-button">Register</button>
+                </form>
             </div>
         </div>
         
         <div class="features-section">
             <h2 class="section-title">Our Features</h2>
             <div class="feature-grid">
-                <div class="feature-card">
+                <div class="feature-card" data-tab="soil">
                     <i class="fas fa-seedling"></i>
                     <h2>Soil <br>Analysis</h2>
                     <p>Get detailed insights about your soil composition and health.</p>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-leaf"></i>
-                    <h2>Crop Recommendations</h2>
-                    <p>Receive personalized crop suggestions based on your soil conditions.</p>
-                </div>
-                <div class="feature-card">
+                
+                <div class="feature-card" data-tab="pest">
+                    <i class="fas fa-bug"></i>
+                    <h2>Pest <br>Control</h2>
+                    <p>Receive personalized pest control suggestions based on your soil conditions.</p>
+                </div>                
+                
+                <div class="feature-card" data-tab="practices">
                     <i class="fas fa-book"></i>
                     <h2>Best<br> Practices</h2>
                     <p>Learn about sustainable farming methods and techniques.</p>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-cloud-sun"></i>
-                    <h2>Weather Integration</h2>
-                    <p>Stay updated with weather forecasts for better planning.</p>
+                
+                <div class="feature-card" data-tab="schemes">
+                    <i class="fas fa-landmark"></i>
+                    <h2>Government Schemes</h2>
+                    <p>Discover relevant government schemes based on your profile and region.</p>
                 </div>
             </div>
         </div>
@@ -351,22 +359,22 @@
                         <div class="member-img">
                             <i class="fas fa-user-circle"></i>
                         </div>
-                        <h4>Dr. Sarah Johnson</h4>
-                        <p>Agricultural Scientist</p>
+                        <h4>Tejas Paunikar</h4>
+                        <p>Contributed to planning, created the template and video, and reviewed the project</p>
                     </div>
                     <div class="team-member">
                         <div class="member-img">
                             <i class="fas fa-user-circle"></i>
                         </div>
-                        <h4>Prof. Michael Chen</h4>
-                        <p>Soil Expert</p>
+                        <h4>Aaryan Mishra</h4>
+                        <p>Designed the frontend, planned features, and integrated APIs.</p>
                     </div>
                     <div class="team-member">
                         <div class="member-img">
                             <i class="fas fa-user-circle"></i>
                         </div>
-                        <h4>Dr. Rajesh Patel</h4>
-                        <p>Crop Specialist</p>
+                        <h4>Saksham Talwar</h4>
+                        <p>Managed backend development, planning, and API integration.</p>
                     </div>
                 </div>
             </div>
