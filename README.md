@@ -24,7 +24,8 @@ Users can upload images, input personal and farming details, and receive instant
 ## 🛠️ Tech Stack
 
 - **Frontend**: HTML, CSS, JavaScript  
-- **Backend**: Node.js, Express  
+- **Backend**: Node.js, Express
+- **DataBase**: PostgreSQL
 - **AI Integration**: Gemini AI API  
 - **Hosting**: Fully hosted on Railway  
 - **Version Control**: Git & GitHub  
