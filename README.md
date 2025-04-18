@@ -3,7 +3,6 @@
 **CropXpert** is a smart AI-powered platform designed to support farmers with vital agricultural information and assistance. 
 Users can upload images, input personal and farming details, and receive instant, intelligent feedback powered by the Gemini AI API.
 
-🔗 **Live Website**: [https://farmingassistant-production.up.railway.app](https://farmingassistant-production.up.railway.app)  
 📦 **Repository**: https://github.com/LordShen2109/farmingassistant
 
 ---
