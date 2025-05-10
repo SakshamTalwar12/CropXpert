@@ -10,6 +10,10 @@
 </head>
 <body>
     <div class="tab-container">
+        <div class="logo-container">
+            <img src="https://img.icons8.com/color/48/000000/leaf.png" alt="CropXpert Logo" class="logo">
+            <span class="logo-text">CX</span>
+        </div>
         <button class="tab-button active" onclick="openTab(event, 'home')">Home</button>
         <button class="tab-button" onclick="openTab(event, 'soil')">Soil Quality</button>
         <button class="tab-button" onclick="openTab(event, 'practices')">Best Practices</button>
@@ -58,6 +62,94 @@
                     <h2>Government Schemes</h2>
                     <p>Discover relevant government schemes based on your profile and region.</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Add FAQ Section -->
+        <div class="faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is CropXpert?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>CropXpert is a smart farming assistant that helps farmers make data-driven decisions about their crops, soil health, and farming practices.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How does soil analysis work?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Simply upload a photo of your soil sample, and our AI-powered system will analyze it to provide detailed insights about soil composition and health.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is CropXpert free to use?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, CropXpert offers a free basic version. Premium features are available with a subscription.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How accurate are the recommendations?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our recommendations are based on scientific data and machine learning algorithms, providing highly accurate insights for your farming needs.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I use CropXpert on mobile devices?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, CropXpert is fully responsive and works seamlessly on all devices including smartphones and tablets. You can access all features on the go.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I get started with CropXpert?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Simply create an account, complete your profile with basic farming details, and you can start using our features immediately. Our intuitive interface makes it easy to navigate and use all tools.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Contact Section -->
+        <div class="contact-section" id="contact">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <form id="contactForm" onsubmit="return handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Contact Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="contact-submit-btn">Send Message</button>
+                </form>
             </div>
         </div>
     </div>
