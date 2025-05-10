@@ -465,6 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Keep the AuthHandler class outside the DOMContentLoaded event
+// Keep the AuthHandler class outside the DOMContentLoaded event
 class AuthHandler {
     constructor() {
       this.authenticated = false;
@@ -480,6 +481,9 @@ class AuthHandler {
         const data = await response.json();
         this.authenticated = data.authenticated;
         console.log('Auth status loaded:', this.authenticated);
+        
+        // Update header buttons after loading auth status
+        this.updateHeaderButtons();
       } catch (error) {
         console.error('Failed to load auth status:', error);
         this.authenticated = false;
@@ -490,7 +494,77 @@ class AuthHandler {
     isAuthenticated() {
       return this.authenticated;
     }
-  
+    
+    // Update the header buttons based on authentication status
+    updateHeaderButtons() {
+      const heroContent = document.querySelector('.hero-content');
+      if (!heroContent) return;
+      
+      if (this.authenticated) {
+        // User is logged in, replace login/register with "Get Started"
+        const existingButtons = heroContent.querySelectorAll('form');
+        
+        // Remove existing login/register buttons
+        existingButtons.forEach(form => form.remove());
+        
+        // Create "Get Started" button if it doesn't already exist
+        if (!heroContent.querySelector('.get-started-button')) {
+          const getStartedButton = document.createElement('button');
+          getStartedButton.className = 'cta-button get-started-button';
+          getStartedButton.textContent = 'Get Started';
+          getStartedButton.addEventListener('click', () => {
+            // Scroll to features section
+            const featuresSection = document.querySelector('.features-section');
+            if (featuresSection) {
+              featuresSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+          
+          heroContent.appendChild(getStartedButton);
+        }
+      } else {
+        // User is not logged in, ensure login/register buttons are visible
+        const existingGetStarted = heroContent.querySelector('.get-started-button');
+        if (existingGetStarted) {
+          existingGetStarted.remove();
+        }
+        
+        // Check if the login/register buttons already exist
+        const existingButtons = heroContent.querySelectorAll('form');
+        if (existingButtons.length === 0) {
+          // Create login button form
+          const loginForm = document.createElement('form');
+          loginForm.action = '/login';
+          loginForm.method = 'GET';
+          loginForm.style.display = 'inline';
+          
+          const loginButton = document.createElement('button');
+          loginButton.type = 'submit';
+          loginButton.className = 'cta-button';
+          loginButton.textContent = 'Login';
+          
+          loginForm.appendChild(loginButton);
+          
+          // Create register button form
+          const registerForm = document.createElement('form');
+          registerForm.action = '/register';
+          registerForm.method = 'GET';
+          registerForm.style.display = 'inline';
+          
+          const registerButton = document.createElement('button');
+          registerButton.type = 'submit';
+          registerButton.className = 'cta-button';
+          registerButton.textContent = 'Register';
+          
+          registerForm.appendChild(registerButton);
+          
+          // Add both forms to the hero content
+          heroContent.appendChild(loginForm);
+          heroContent.appendChild(registerForm);
+        }
+      }
+    }
+
     // Handle protected API calls
     async fetchProtectedApi(url, options = {}) {
       try {
