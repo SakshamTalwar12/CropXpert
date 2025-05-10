@@ -17,7 +17,7 @@ const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "cropxpert",
-  password: process.env.PGPASSWORD,
+  password: process.env.DBPASSWORD,
   port: 5432,
 });
 db.connect();
@@ -68,7 +68,7 @@ app.get('/register', (req, res) => {
 });
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.use(express.static("public"));
 app.use(session({
@@ -156,14 +156,14 @@ app.post("/login", async (req, res) => {
 });
 
 // Add logout route
-app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      return res.status(500).json({ success: false, message: "Logout failed" });
-    }
-    res.status(200).json({ success: true, message: "Logout successful" });
-  });
-});
+// app.get("/logout", (req, res) => {
+//   req.session.destroy(err => {
+//     if (err) {
+//       return res.status(500).json({ success: false, message: "Logout failed" });
+//     }
+//     res.status(200).json({ success: true, message: "Logout successful" });
+//   });
+// });
 
 // Check authentication status route
 app.get("/auth-status", (req, res) => {
