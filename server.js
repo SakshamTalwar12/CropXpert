@@ -11,14 +11,32 @@ import pg from "pg";
 import "dotenv/config";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-});
-db.connect();
-
+// Database connection setup
+let db;
+try {
+  if (process.env.DATABASE_URL) {
+    db = new pg.Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+    });
+  } else {
+    // Fallback to individual parameters if DATABASE_URL is not provided
+    db = new pg.Client({
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
+    });
+  }
+  
+  db.connect();
+  console.log("Database connected successfully");
+} catch (error) {
+  console.error("Database connection error:", error);
+}
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -33,7 +51,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = path.join(dirname(fileURLToPath(import.meta.url)), 'uploads');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -49,40 +69,31 @@ function fileToGenerativePart(filePath, mimeType) {
   };
 }
 
+// Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Routes for login and register
-app.get('/login', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'login.html'));
-});
-
-app.get('/register', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'register.html'));
-});
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-app.use(express.static("public"));
 app.use(session({
-  secret: process.env.SESSION_SECRET,  // Replace with a strong secret key
+  secret: process.env.SESSION_SECRET || "default-secret-key",
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: process.env.NODE_ENV === 'production', // Set to true in production
+    secure: process.env.NODE_ENV === 'production',
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
 
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, 'public', 'index.html'));
+// Gemini AI setup
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+// Debug middleware to log session info
+app.use((req, res, next) => {
+  console.log(`Request path: ${req.path}, Auth status: ${req.session.userId ? 'Authenticated' : 'Not authenticated'}`);
+  next();
 });
 
+// Authentication middleware
 const isAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
     return next();
@@ -94,6 +105,20 @@ const isAuthenticated = (req, res, next) => {
   });
 };
 
+// Basic routes
+app.get("/", (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'register.html'));
+});
+
+// Registration endpoint
 app.post("/register", async (req, res) => {
   const email = req.body.username;
   const password = req.body.password;
@@ -113,16 +138,22 @@ app.post("/register", async (req, res) => {
       req.session.userId = result.rows[0].id;
       req.session.email = email;
       
-      // Perform direct redirect instead of returning JSON
-      res.redirect('/');
+      // Save session before redirecting
+      req.session.save(err => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ success: false, message: "Session error" });
+        }
+        res.redirect('/');
+      });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Registration error:", err);
+    res.status(500).json({ success: false, message: "Server error", details: err.message });
   }
 });
 
-// Update your login route to set the session
+// Login endpoint
 app.post("/login", async (req, res) => {
   const email = req.body.username;
   const password = req.body.password;
@@ -139,8 +170,15 @@ app.post("/login", async (req, res) => {
         req.session.userId = user.id;
         req.session.email = user.email;
         
-        // Perform direct redirect instead of returning JSON
-        res.redirect('/');
+        // Save session explicitly before redirecting
+        req.session.save(err => {
+          if (err) {
+            console.error("Session save error:", err);
+            return res.status(500).json({ success: false, message: "Session error" });
+          }
+          console.log("Login successful, session saved with userId:", user.id);
+          res.redirect('/');
+        });
       } else {
         res.status(400).json({ success: false, message: "Incorrect Password" });
       }
@@ -148,22 +186,22 @@ app.post("/login", async (req, res) => {
       res.status(404).json({ success: false, message: "User not found" });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Login error:", err);
+    res.status(500).json({ success: false, message: "Server error", details: err.message });
   }
 });
 
-// Add logout route
-// app.get("/logout", (req, res) => {
-//   req.session.destroy(err => {
-//     if (err) {
-//       return res.status(500).json({ success: false, message: "Logout failed" });
-//     }
-//     res.status(200).json({ success: true, message: "Logout successful" });
-//   });
-// });
+// Logout route
+app.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Logout failed" });
+    }
+    res.redirect('/login');
+  });
+});
 
-// Check authentication status route
+// Authentication status endpoint
 app.get("/auth-status", (req, res) => {
   if (req.session && req.session.userId) {
     res.json({ authenticated: true, email: req.session.email });
@@ -172,11 +210,8 @@ app.get("/auth-status", (req, res) => {
   }
 });
 
-// Protect generate-response route
-// Route handler for generating AI responses with authentication
-// Route handler for generating AI responses with authentication
+// Generate AI response endpoint (protected)
 app.post("/generate-response", isAuthenticated, async (req, res) => {
-  
   try {
     const userInput = req.body.prompt;
     
@@ -202,9 +237,9 @@ app.post("/generate-response", isAuthenticated, async (req, res) => {
       message: "Failed to generate response. Please try again later." 
     });
   }
-});// Protect analyze-soil route
-// Route handler for soil analysis with image upload and authentication
-// Route handler for soil analysis with image upload and authentication
+});
+
+// Soil analysis endpoint (protected)
 app.post("/analyze-soil", isAuthenticated, (req, res) => {
   // Use multer middleware for file upload
   upload.single("image")(req, res, async (err) => {
@@ -292,6 +327,8 @@ app.post("/analyze-soil", isAuthenticated, (req, res) => {
     }
   });
 });
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
