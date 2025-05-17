@@ -1,3 +1,28 @@
+// Dark Mode Toggle
+// This must be at the top to ensure the button works as soon as DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (!darkModeToggle) return;
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    // Check for saved theme preference or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    // Toggle dark mode
+    darkModeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        // Update icon
+        darkModeToggle.innerHTML = newTheme === 'dark'
+            ? '<i class="fas fa-sun"></i>'
+            : '<i class="fas fa-moon"></i>';
+    });
+});
+
 // Your Existing Tab Switching Code
 function openTab(evt, tabName) {
     // Hide all tab content
@@ -460,6 +485,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 loading.style.display = 'none';
                 submitButton.disabled = false;
             }
+        });
+    }
+
+    // FAQ Section Functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            // Close all other FAQ items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current FAQ item
+            item.classList.toggle('active');
+        });
+    });
+
+    // Contact Form Functionality
+    const contactForm = document.querySelector('.contact-form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                email: this.querySelector('input[type="email"]').value,
+                phone: this.querySelector('input[type="tel"]').value,
+                message: this.querySelector('textarea').value
+            };
+            
+            // Log form data (replace with actual form submission)
+            console.log('Form submitted:', formData);
+            
+            // Clear form
+            this.reset();
+            
+            // Scroll to top of page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Show success message (you can customize this)
+            alert('Thank you for your message! We will get back to you soon.');
         });
     }
 });
