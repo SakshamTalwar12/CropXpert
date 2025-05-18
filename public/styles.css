@@ -3,7 +3,28 @@
     padding: 0;
     box-sizing: border-box;
 }
+::-webkit-scrollbar-button {
+  display: none;  /* hides the up/down arrows */
+}
 
+#logout{
+    position:absolute;
+    left: 1410px;
+    padding: 6px 10px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color:#1b5e20;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight:550;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+#logout:hover{
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background-color:rgba(220, 220, 220, 0.95)
+
+}
 .logo-container {
     position: absolute;
     top: 50%;
@@ -29,6 +50,7 @@
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
     border-color: rgba(76, 175, 80, 0.3);
     background: rgba(255, 255, 255, 0.98);
+    cursor:pointer;
 }
 
 .logo {
@@ -158,6 +180,17 @@ body {
     display: block;
 }
 
+#darkModeToggle{
+    position:absolute;
+    cursor: pointer;
+    top:18px;
+    height: 25px;
+    width: 25px;
+    /* left: 1365px; */
+    right: 1370px;
+    border:none;
+    border-radius: 20%;
+}
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
                 url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
@@ -1366,6 +1399,10 @@ body {
     overflow: hidden;
 }
 
+[data-theme="dark"] h2#feats {
+   color: #2e7d32 !important;
+}
+
 [data-theme="dark"] h2.section-title::after {
     content: '';
     position: absolute;
@@ -1613,7 +1650,7 @@ body {
     font-weight: 600;
     position: relative;
     overflow: hidden;
-    z-index: 1;
+    /* z-index: 1; */
     transition: all 0.3s ease;
 }
 
@@ -2006,3 +2043,4 @@ body {
     background: #4ecca3 !important;
     color: #232323 !important;
 }
+

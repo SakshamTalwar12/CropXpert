@@ -37,8 +37,22 @@ function openTab(evt, tabName) {
         tabButtons[i].className = tabButtons[i].className.replace(" active", "");
     }
 
-    // Show the selected tab content and mark the button as active
-    document.getElementById(tabName).style.display = "block";
+    // Show the selected tab content
+    const selectedTab = document.getElementById(tabName);
+    selectedTab.style.display = "block";
+
+    // Scroll to top only if not targeting a section
+    if (evt.currentTarget.dataset.tab !== "pest") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+        // Scroll to pest heading
+        const pestHeading = document.getElementById("pest-heading");
+        if (pestHeading) {
+            pestHeading.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+
+    // Mark the clicked button as active
     evt.currentTarget.className += " active";
 
     // Ensure modal remains accessible
@@ -808,3 +822,16 @@ const authHandler = new AuthHandler();
 
 // Make authHandler available to the window object since ES6 module export might not work in all contexts
 window.authHandler = authHandler;
+
+fetch('/auth-status')
+    .then(res => res.json())
+    .then(data => {
+      if (data.authenticated) {
+        document.getElementById("logout").style.display = "block";
+      }
+    });
+
+  // Logout on click
+  document.getElementById("logout").addEventListener("click", () => {
+    window.location.href = "/logout";
+  });

@@ -10,18 +10,19 @@
 </head>
 <body>
     <div class="tab-container">
-        <div class="logo-container">
+        <a href="/"><div class="logo-container">
             <img src="https://img.icons8.com/color/48/000000/leaf.png" alt="CropXpert Logo" class="logo">
             <span class="logo-text">CX</span>
-        </div>
+        </div></a>
         <button class="tab-button active" onclick="openTab(event, 'home')">Home</button>
         <button class="tab-button" onclick="openTab(event, 'soil')">Soil Quality</button>
         <button class="tab-button" onclick="openTab(event, 'practices')">Best Practices</button>
         <button class="tab-button" onclick="openTab(event, 'schemes')">Govt Schemes</button>
         <button class="tab-button" onclick="openTab(event, 'about')">About</button>
-        <button id="darkModeToggle" class="dark-mode-toggle">
+        <button id="darkModeToggle" class="dark-mode-toggle" title="Night Mode">
             <i class="fas fa-moon"></i>
         </button>
+        <button id="logout" style=" display: none;">Logout</button>
     </div>
 
     <!-- Home Tab -->
@@ -40,27 +41,27 @@
         </div>
         
         <div class="features-section">
-            <h2 class="section-title">Our Features</h2>
+            <h2 class="section-title" id="feats">Our Features</h2>
             <div class="feature-grid">
-                <div class="feature-card" data-tab="soil">
+                <div class="feature-card" data-tab="soil" onclick="openTab(event, 'soil')">
                     <i class="fas fa-seedling"></i>
                     <h2>Soil <br>Analysis</h2>
                     <p>Get detailed insights about your soil composition and health.</p>
                 </div>
                 
-                <div class="feature-card" data-tab="pest">
+                <div class="feature-card" data-tab="pest" onclick="openTab(event, 'soil')">
                     <i class="fas fa-bug"></i>
                     <h2>Pest <br>Control</h2>
                     <p>Receive personalized pest control suggestions based on your soil conditions.</p>
                 </div>                
                 
-                <div class="feature-card" data-tab="practices">
+                <div class="feature-card" data-tab="practices" onclick="openTab(event, 'practices')">
                     <i class="fas fa-book"></i>
                     <h2>Best<br> Practices</h2>
                     <p>Learn about sustainable farming methods and techniques.</p>
                 </div>
                 
-                <div class="feature-card" data-tab="schemes">
+                <div class="feature-card" data-tab="schemes" onclick="openTab(event, 'schemes')">
                     <i class="fas fa-landmark"></i>
                     <h2>Government Schemes</h2>
                     <p>Discover relevant government schemes based on your profile and region.</p>
@@ -185,7 +186,7 @@
             <button class="farm-btn">Learn More</button>
             </a>
             <div class="pest-control">
-                <h2>Pest Management</h2>
+                <h2 id="pest-heading">Pest Management</h2>
                 <p class="pest-text">Integrated Pest Management (IPM) strategies for your crops:</p>
                 <div class="pest-cards">
                     <div class="pest-card">
